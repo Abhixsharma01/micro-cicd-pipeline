@@ -5,4 +5,5 @@ RUN npm ci --only=production || true
 COPY . .
 EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
-CMD ["node","index.js"]
+CMD ["node", "server.js"]
+
