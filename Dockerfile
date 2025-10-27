@@ -1,9 +1,19 @@
 FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production || true
-COPY . .
-EXPOSE 5000
-HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
-CMD ["node", "server.js"]
 
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy package files first (for caching)
+COPY user-service/package*.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
+
+# Copy all source files from user-service folder
+COPY user-service/ .
+
+# Expose the app port
+EXPOSE 5000
+
+# Start the app
+CMD ["node", "index.js"]
