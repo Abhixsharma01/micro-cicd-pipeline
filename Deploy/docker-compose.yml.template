@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  user-service:
+    image: abhixsharma/user-service:${USER_TAG}
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
