@@ -30,9 +30,11 @@ pipeline {
                     // Stop old container if running
                     bat 'docker stop %CONTAINER_NAME% || exit 0'
                     bat 'docker rm %CONTAINER_NAME% || exit 0'
-                    // Run new one
-                    bat 'docker run -d -p 8081:5000 --name user-service-container user-service:latest
-'
+                    
+                    // ✅ FIX: use triple quotes for multiline batch commands
+                    bat """
+                    docker run -d -p 8081:5000 --name %CONTAINER_NAME% %IMAGE_NAME%:latest
+                    """
                 }
             }
         }
